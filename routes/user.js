@@ -19,6 +19,7 @@ router.get("/", (req, res) => {
 
 router.get("/:id", userController.getUser);
 router.post("/", userController.createUser);
+router.post("/login", userController.login);
 router.put("/:id", userController.updateUser);
 router.delete("/:id", userController.deleteUser);
 
