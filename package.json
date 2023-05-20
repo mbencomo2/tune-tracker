@@ -1,0 +1,38 @@
+{
+  "name": "tune-tracker",
+  "version": "0.0.1",
+  "description": "A simple GraphQL API for managing your music library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "lint": "eslint ./*.js --fix",
+    "format": "prettier ./* --ignore-path ./.gitignore"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbencomo2/tune-tracker.git"
+  },
+  "keywords": [
+    "music",
+    "API",
+    "mongoDB"
+  ],
+  "author": "MattBencomo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mbencomo2/tune-tracker/issues"
+  },
+  "homepage": "https://github.com/mbencomo2/tune-tracker#readme",
+  "devDependencies": {
+    "eslint": "^8.41.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.8"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.0"
+  }
+}
