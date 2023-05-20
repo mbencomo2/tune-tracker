@@ -9,12 +9,12 @@ router.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept, Z-Key"
   );
   res.setHeader("Content-Type", "application/json");
-  console.log("Time: ", Date.now());
+  console.log("Time: ", Date.now(), { route: "Users" });
   next();
 });
 
 router.get("/", (req, res) => {
-  res.send("If you can see this you are in the USERS route.");
+  res.json({message: "If you can see this you are in the USERS route."});
 });
 
 router.get("/:id", userController.getUser);

@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const getUser = async (req, res) => {
+  // #swagger.tags = ['Users']
   try {
     const id = new ObjectId(req.params.id);
     const result = await User.findById(id);
@@ -14,23 +15,26 @@ const getUser = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
+  // #swagger.tags = ['Users']
   try {
     const date = new Date();
     const plainPassword = req.body.password;
     bcrypt.genSalt(saltRounds, (err, salt) => {
-      bcrypt.hash(plainPassword, salt, (err, hash) => {
+      bcrypt.hash(plainPassword, salt, async (err, hash) => {
         const user = new User({
           name: req.body.name,
           email: req.body.email,
           dateJoined: date,
           password: hash,
           faveGenre: req.body.favGenre || "",
-          comment: ""
+          comment: req.body.comment || ""
         });
-        user.save().then((user) => {
-          delete user.password;
-          res.status(201).json({ message: "User created successfully", user: user });
-        });
+        const result = await user.save();
+        if (result) {
+          const userData = result.toObject();
+          delete userData.password;
+          res.status(201).json({ message: "User created successfully", user: userData });
+        }
       });
     });
   } catch (err) {
@@ -40,19 +44,23 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  // #swagger.tags = ['Users']
   try {
     const id = new ObjectId(req.params.id);
-    User.findOne({ _id: id }).then((user) => {
-      if (user) {
-        user.name = req.body.name || user.name;
-        user.email = req.body.email || user.email;
-        User.updateOne({ _id: id }, user).then((user) => {
-          res.status(201).json({ message: "User updated successfully", user: user });
-        });
-      } else {
-        res.status(202).json({ message: `No user exists for ${id}` });
+    const user = await User.findOne({ _id: id });
+    if (user) {
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.comment = req.body.comment || user.comment;
+      const result = await user.save();
+      if (result) {
+        const userData = result.toObject();
+        delete userData.password;
+        res.status(201).json({ message: "User updated successfully", user: userData });
       }
-    });
+    } else {
+      res.status(202).json({ message: `No user exists for ${id}` });
+    }
   } catch (err) {
     console.log(err);
     res.status(404).json({ message: "Error updating user", error: `${err}` });
@@ -60,6 +68,7 @@ const updateUser = async (req, res) => {
 };
 
 const deleteUser = async (req, res) => {
+  // #swagger.tags = ['Users']
   try {
     const id = new ObjectId(req.params.id);
     User.findOne({ _id: id }).then((user) => {
@@ -78,6 +87,7 @@ const deleteUser = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  // #swagger.tags = ['Users']
   try {
     const password = req.body.password;
     const email = req.body.email;

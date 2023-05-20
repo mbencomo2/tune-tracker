@@ -11,6 +11,6 @@ const userSchema = new Schema({
   year: String
 });
 
-const User = model("User", userSchema);
+const User = model("users", userSchema);
 
 module.exports = User;
