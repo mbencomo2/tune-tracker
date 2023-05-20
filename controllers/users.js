@@ -8,7 +8,11 @@ const getUser = async (req, res) => {
   try {
     const id = new ObjectId(req.params.id);
     const result = await User.findById(id);
-    res.status(202).json(result);
+    if (result) {
+      const userData = result.toObject();
+      delete userData.password;
+      res.status(202).json({ message: "Found user", user: userData });
+    }
   } catch (err) {
     res.status(404).json({ message: "Error fetching users", error: `${err}` });
   }
