@@ -5,7 +5,7 @@
     "description": "Keep track of your music albums and singles with a simple, easy to use REST API.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "tune-tracker.render.com",
   "basePath": "/",
   "schemes": [
     "http"
