@@ -10,6 +10,4 @@ router.use("/", (req, res) => {
   res.send("If you can see this then everything is working correctly.");
 });
 
-
-
 module.exports = router;

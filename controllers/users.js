@@ -1,13 +1,14 @@
 const User = require("../model/user");
-const ObjectId = require("mongodb").ObjectId;
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const getUser = async (req, res) => {
   // #swagger.tags = ['Users']
   try {
-    const id = new ObjectId(req.params.id);
-    const result = await User.findById(id);
+    const result = await User.findById(req.id);
     if (result) {
       const userData = result.toObject();
       delete userData.password;
@@ -50,8 +51,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   // #swagger.tags = ['Users']
   try {
-    const id = new ObjectId(req.params.id);
-    const user = await User.findOne({ _id: id });
+    const user = await User.findById(req.id);
     if (user) {
       user.name = req.body.name || user.name;
       user.email = req.body.email || user.email;
@@ -63,25 +63,24 @@ const updateUser = async (req, res) => {
         res.status(201).json({ message: "User updated successfully", user: userData });
       }
     } else {
-      res.status(202).json({ message: `No user exists for ${id}` });
+      res.status(422).json({ message: "Cannot find user" });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Error updating user", error: `${err}` });
+    res.status(404).json({ error: { message: "Error updating user" } });
   }
 };
 
 const deleteUser = async (req, res) => {
   // #swagger.tags = ['Users']
   try {
-    const id = new ObjectId(req.params.id);
-    User.findOne({ _id: id }).then((user) => {
+    User.findById(req.id).then((user) => {
       if (user) {
-        User.deleteOne({ _id: id }).then(
+        User.remove({ _id: req.id }).then(
           res.status(202).json({ message: "User deleted successfully" })
         );
       } else {
-        res.status(202).json({ message: `No user exists for ${id}` });
+        res.status(202).json({ message: "User does not exist" });
       }
     });
   } catch (err) {
@@ -99,23 +98,22 @@ const login = async (req, res) => {
     if (user) {
       const match = await bcrypt.compare(password, user.password);
       if (match) {
-        const userData = {
-          _id: user.id,
-          name: user.name,
-          email: user.email,
-          dateJoined: user.dateJoined,
-          comment: user.comment,
-          favGenre: user.faveGenre
-        };
-        res.status(202).json({ message: "Login successful", data: userData });
+        const token = createJWT(user.id);
+        res.status(202).json({ message: "Login successful", token: token });
       } else {
-        res.status(202).json({ message: "Wrong Username or Password", error: "Failed to login" });
+        res.status(422).json({ message: "Wrong Username or Password" });
       }
+    } else {
+      res.status(422).json({ message: "Wrong Username or Password" });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Error getting user info", error: err });
+    res.status(404).json({ err: { message: "Server error" } });
   }
+};
+
+const createJWT = (id) => {
+  return jwt.sign({ id: id }, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
 };
 
 module.exports = { getUser, createUser, updateUser, deleteUser, login };

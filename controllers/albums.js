@@ -4,12 +4,16 @@ const ObjectId = require("mongodb").ObjectId;
 const getAlbums = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const id = new ObjectId(req.params.userId);
-    const result = await Album.find({ user: id });
+    const result = await Album.find({ user: req.id });
     if (result) {
-      res.status(202).json({ message: "Fetched all albums", albums: result });
+      const data = result.map((album) => {
+        const withoutUser = album.toObject();
+        delete withoutUser.user;
+        return withoutUser;
+      });
+      res.status(202).json({ message: "Fetched all albums", albums: data });
     } else {
-      res.status(202).json({ message: "No Albums for current user", albums: [] });
+      res.status(202).json({ message: "No Albums for current user" });
     }
   } catch (err) {
     console.log(err);
@@ -20,12 +24,14 @@ const getAlbums = async (req, res) => {
 const getAlbum = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const id = new ObjectId(req.params.id);
+    const id = new ObjectId(req.params.albumId);
     const result = await Album.findOne({ _id: id });
     if (result) {
-      res.status(202).json({ message: "Fetched album details", data: result });
+      const data = result.toObject();
+      delete data.user;
+      res.status(202).json({ message: "Fetched album details", album: data });
     } else {
-      res.status(202).json({ message: "No album found", data: [] });
+      res.status(202).json({ message: "No album found" });
     }
   } catch (err) {
     console.log(err);
@@ -44,11 +50,13 @@ const createAlbum = async (req, res) => {
         coverArt: req.body.coverArt || "",
         playTime: req.body.playTime || "",
         year: req.body.year || "",
-        user: req.body.user
+        user: req.id
       });
       const result = await album.save();
       if (result) {
-        res.status(201).json({ message: "New album created", album: result });
+        const data = result.toObject();
+        delete data.user;
+        res.status(201).json({ message: "New album created", album: data });
       }
     } else {
       res.status(400).json({ message: "Request body cannot be empty" });
@@ -89,16 +97,12 @@ const updateAlbum = async (req, res) => {
 const deleteAlbum = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const id = new ObjectId(req.params.id);
+    const id = new ObjectId(req.params.albumId);
     const result = await Album.deleteOne({ _id: id });
     if (result) {
-      if (result) {
-        res.status(202).json({ message: "Deleted Album" });
-      } else {
-        res.status(404).json({ message: "Error deleting album" });
-      }
+      res.status(202).json({ message: "Deleted Album" });
     } else {
-      res.status(202).json({ message: "No album found", data: [] });
+      res.status(202).json({ message: "No album found" });
     }
   } catch (err) {
     console.log(err);

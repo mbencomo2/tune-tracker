@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express();
 const albumsController = require("../controllers/albums");
+const authenticateUser = require("../authenticate");
 
 router.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
@@ -13,14 +14,10 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/", (req, res) => {
-  res.json({message: "If you can see this you are in the ALBUMS route."});
-});
-
-router.get("/user/:userId", albumsController.getAlbums);
-router.get("/:id", albumsController.getAlbum);
-router.post("/", albumsController.createAlbum);
-router.put("/:id", albumsController.updateAlbum);
-router.delete("/:id", albumsController.deleteAlbum);
+router.get("/user", authenticateUser, albumsController.getAlbums);
+router.get("/:albumId", authenticateUser, albumsController.getAlbum);
+router.post("/", authenticateUser, albumsController.createAlbum);
+router.put("/:albumId", authenticateUser, albumsController.updateAlbum);
+router.delete("/:albumId", authenticateUser, albumsController.deleteAlbum);
 
 module.exports = router;
