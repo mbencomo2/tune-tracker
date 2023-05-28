@@ -5,10 +5,10 @@
     "description": "A simple REST API to keep track of your albums and music tracks",
     "version": "1.0.0"
   },
-  "host": "tune-tracker.onrender.com",
+  "host": "localhost:8080",
   "basePath": "/",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/api/user/": {
@@ -52,19 +52,19 @@
               "type": "object",
               "properties": {
                 "password": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "name": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "Email"
                 },
                 "favGenre": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "comment": {
-                  "example": "any"
+                  "example": "String"
                 }
               }
             }
@@ -100,13 +100,16 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "Email"
                 },
                 "comment": {
-                  "example": "any"
+                  "example": "String"
+                },
+                "password": {
+                  "example": "String"
                 }
               }
             }
@@ -172,10 +175,10 @@
               "type": "object",
               "properties": {
                 "password": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "email": {
-                  "example": "any"
+                  "example": "Email"
                 }
               }
             }
@@ -281,22 +284,22 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "albumArtist": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "playTime": {
-                  "example": "any"
+                  "example": "# of seconds"
                 },
                 "contributingArtists": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "coverArt": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "year": {
-                  "example": "any"
+                  "example": "Year number"
                 }
               }
             }
@@ -373,22 +376,22 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "albumArtist": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "contributingArtists": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "coverArt": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "playTime": {
-                  "example": "any"
+                  "example": "# of seconds"
                 },
                 "year": {
-                  "example": "any"
+                  "example": "Year number"
                 }
               }
             }
@@ -509,28 +512,28 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "artist": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "albumID": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "albumArtist": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "coverArt": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "trackLength": {
-                  "example": "any"
+                  "example": "# of seconds"
                 },
                 "trackNumber": {
-                  "example": "any"
+                  "example": "Number"
                 },
                 "genre": {
-                  "example": "any"
+                  "example": "String"
                 }
               }
             }
@@ -645,25 +648,25 @@
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "artist": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "albumID": {
-                  "example": "any"
+                  "example": "Album ID"
                 },
                 "coverArt": {
-                  "example": "any"
+                  "example": "String"
                 },
                 "trackLength": {
-                  "example": "any"
+                  "example": "# of seconds"
                 },
                 "trackNumber": {
-                  "example": "any"
+                  "example": "Number"
                 },
                 "genre": {
-                  "example": "any"
+                  "example": "String"
                 }
               }
             }
