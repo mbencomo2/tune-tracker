@@ -2,6 +2,7 @@ const express = require("express");
 const router = express();
 const albumsController = require("../controllers/albums");
 const authenticateUser = require("../authenticate");
+const { validate, albumValidationRules } = require("../validator");
 
 router.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
@@ -16,7 +17,7 @@ router.use((req, res, next) => {
 
 router.get("/user", authenticateUser, albumsController.getAlbums);
 router.get("/:albumId", authenticateUser, albumsController.getAlbum);
-router.post("/", authenticateUser, albumsController.createAlbum);
+router.post("/", authenticateUser, albumValidationRules(), validate, albumsController.createAlbum);
 router.put("/:albumId", authenticateUser, albumsController.updateAlbum);
 router.delete("/:albumId", authenticateUser, albumsController.deleteAlbum);
 

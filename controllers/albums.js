@@ -4,11 +4,11 @@ const ObjectId = require("mongodb").ObjectId;
 const getAlbums = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const result = await Album.find({ user: req.id });
+    const result = await Album.find({ userID: req.id });
     if (result) {
       const data = result.map((album) => {
         const withoutUser = album.toObject();
-        delete withoutUser.user;
+        delete withoutUser.userID;
         return withoutUser;
       });
       res.status(202).json({ message: "Fetched all albums", albums: data });
@@ -28,7 +28,7 @@ const getAlbum = async (req, res) => {
     const result = await Album.findOne({ _id: id });
     if (result) {
       const data = result.toObject();
-      delete data.user;
+      delete data.userID;
       res.status(202).json({ message: "Fetched album details", album: data });
     } else {
       res.status(202).json({ message: "No album found" });
@@ -44,18 +44,18 @@ const createAlbum = async (req, res) => {
   try {
     if (req._body) {
       const album = new Album({
-        name: req.body.name || "",
+        name: req.body.name,
         albumArtist: req.body.albumArtist || "",
         contributingArtists: req.body.contributingArtists || "",
         coverArt: req.body.coverArt || "",
         playTime: req.body.playTime || "",
         year: req.body.year || "",
-        user: req.id
+        userID: req.id
       });
       const result = await album.save();
       if (result) {
         const data = result.toObject();
-        delete data.user;
+        delete data.userID;
         res.status(201).json({ message: "New album created", album: data });
       }
     } else {
@@ -70,7 +70,7 @@ const createAlbum = async (req, res) => {
 const updateAlbum = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const id = new ObjectId(req.params.id);
+    const id = new ObjectId(req.params.albumId);
     const album = await Album.findOne({ _id: id });
     if (album) {
       album.name = req.body.name || album.name;
@@ -81,12 +81,14 @@ const updateAlbum = async (req, res) => {
       album.year = req.body.year || album.year;
       const result = await album.save();
       if (result) {
-        res.status(202).json({ message: "Updated album details", album: album });
+        const data = album.toObject();
+        delete data.userID;
+        res.status(202).json({ message: "Updated album details", album: data });
       } else {
-        res.status(404).json({ message: "Error saving album details" });
+        res.status(422).json({ message: "Error saving album details" });
       }
     } else {
-      res.status(202).json({ message: "No album found", data: [] });
+      res.status(404).json({ message: "No album found"});
     }
   } catch (err) {
     console.log(err);

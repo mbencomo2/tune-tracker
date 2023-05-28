@@ -1,123 +1,164 @@
 const Track = require("../model/track");
 const ObjectId = require("mongodb").ObjectId;
 
-const getTracks = async (req, res) => {
+/**
+ * Get all tracks saved by the current user
+ */
+const getTracksbyUser = async (req, res) => {
   // #swagger.tags = ['Tracks']
   try {
-    const result = await Track.find({ user: req.id });
+    const result = await Track.find({ userID: req.id });
     if (result) {
       const data = result.map((track) => {
         const trackData = track.toObject();
-        delete trackData.user;
+        delete trackData.userID;
         return trackData;
       });
       res.status(202).json({ message: "Fetched all Tracks", tracks: data });
     } else {
-      res.status(422).json({ message: "No Tracks for current user"});
+      res.status(422).json({ message: "No Tracks found" });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
+    res.status(500).json({ message: "Server error", error: err });
   }
 };
 
+/**
+ * Get a specific track
+ */
 const getTrack = async (req, res) => {
   // #swagger.tags = ['Tracks']
   try {
-    const id = new ObjectId(req.params.trackId);
-    const result = await Track.findOne({ _id: id });
+    const result = await Track.findById(req.params.trackId);
     if (result) {
       const data = result.toObject();
-      delete data.user;
+      delete data.userID;
       res.status(202).json({ message: "Fetched Track details", track: data });
     } else {
-      res.status(422).json({ message: "No Track found"});
+      res.status(422).json({ message: "No Track found" });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
+    res.status(500).json({ message: "Server error", error: err });
   }
 };
 
-const createTrack = async (req, res) => {
+/**
+ * Get all tracks from a certain album
+ */
+const getTracksbyAlbum = async (req, res) => {
   // #swagger.tags = ['Tracks']
   try {
-    if (req._body) {
+    const result = await Track.find({ albumID: req.params.albumId });
+    if (result) {
+      const data = result.map((track) => {
+        const trackData = track.toObject();
+        delete trackData.userID;
+        return trackData;
+      });
+      res.status(202).json({ message: "Fetched Track deteails", tracks: data });
+    } else {
+      res.status(422).json({ message: "No tracks fround" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "server error", error: err });
+  }
+};
+
+/**
+ * Create a new track 
+ */
+const createTrack = async (req, res) => {
+  // #swagger.tags = ['Tracks']
+  if (!req._body) {
+    res.status(422).json({ message: "Request body cannot be empty" });
+  } else {
+    try {
       const track = new Track({
         title: req.body.title || "",
         artist: req.body.artist || "",
-        album: req.body.album || "",
+        albumID: req.body.albumID || "",
         albumArtist: req.body.artist || "",
         coverArt: req.body.coverArt || "",
         trackLength: req.body.trackLength || "",
         trackNumber: req.body.trackNumber || "",
         genre: req.body.genre || "",
-        user: req.id
+        userID: req.id
       });
       const result = await track.save();
       if (result) {
         const data = result.toObject();
-        delete data.user;
+        delete data.userID;
         res.status(201).json({ message: "New Track created", track: data });
       }
-    } else {
-      res.status(400).json({ message: "Request body cannot be empty" });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Server Error", error: err });
     }
-  } catch (err) {
-    console.log(err);
-    res.status(404).json({ message: "Server Error", error: err });
   }
 };
 
+/**
+ * Update a certain track's info
+ */
 const updateTrack = async (req, res) => {
   // #swagger.tags = ['Tracks']
-  try {
-    const id = new ObjectId(req.params.trackId);
-    const track = await Track.findOne({ _id: id });
-    if (track) {
-      track.title = req.body.title || track.title;
-      track.artist = req.body.artist || track.artist;
-      track.album = req.body.album || track.album;
-      track.albumArtist = req.body.artist || track.albumArtist;
-      track.coverArt = req.body.coverArt || track.coverArt;
-      track.trackLength = req.body.trackLength || track.trackLength;
-      track.trackNumber = req.body.trackNumber || track.trackNumber;
-      track.genre = req.body.genre || track.genre;
-      const result = await track.save();
-      if (result) {
-        const data = result.toObject();
-        delete data.user;
-        res.status(202).json({ message: "Updated Track details", track: data });
+  if (!req._body) {
+    res.status(422).json({ error: { message: "Request body cannot be empty" } });
+  } else {
+    try {
+      const id = new ObjectId(req.params.trackId);
+      const track = await Track.findOne({ _id: id });
+      if (track) {
+        track.title = req.body.title || track.title;
+        track.artist = req.body.artist || track.artist;
+        track.albumID = req.body.albumID || track.albumID;
+        track.albumArtist = req.body.albumArtist || track.albumArtist;
+        track.coverArt = req.body.coverArt || track.coverArt;
+        track.trackLength = req.body.trackLength || track.trackLength;
+        track.trackNumber = req.body.trackNumber || track.trackNumber;
+        track.genre = req.body.genre || track.genre;
+        const result = await track.save();
+        if (result) {
+          const data = result.toObject();
+          delete data.userID;
+          res.status(202).json({ message: "Updated Track details", track: data });
+        }
       } else {
-        res.status(422).json({ message: "Error saving Track details" });
+        res.status(422).json({ message: "No Track found" });
       }
-    } else {
-      res.status(202).json({ message: "No Track found"});
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Server error", error: err });
     }
-  } catch (err) {
-    console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
   }
 };
 
+/**
+ * Delete a certain track
+ */
 const deleteTrack = async (req, res) => {
   // #swagger.tags = ['Tracks']
   try {
-    const id = new ObjectId(req.params.trackId);
-    const result = await Track.deleteOne({ _id: id });
+    const result = await Track.findByIdAndDelete(req.params.trackId);
     if (result) {
-      if (result) {
-        res.status(202).json({ message: "Deleted Track" });
-      } else {
-        res.status(422).json({ message: "Error deleting Track" });
-      }
+      res.status(202).json({ message: "Deleted Track" });
     } else {
-      res.status(202).json({ message: "No Track found"});
+      res.status(202).json({ message: "No Track found" });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
+    res.status(500).json({ message: "Server error", error: err });
   }
 };
 
-module.exports = { getTrack, getTracks, createTrack, updateTrack, deleteTrack };
+module.exports = {
+  getTrack,
+  getTracksbyUser,
+  getTracksbyAlbum,
+  createTrack,
+  updateTrack,
+  deleteTrack
+};

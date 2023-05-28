@@ -2,13 +2,13 @@
   "swagger": "2.0",
   "info": {
     "title": "Tune Tracker API",
-    "description": "Keep track of your music albums and singles with a simple, easy to use REST API.",
+    "description": "A simple REST API to keep track of your albums and music tracks",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "tune-tracker.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api/user/": {
@@ -314,6 +314,9 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           }
         }
       },
@@ -406,6 +409,9 @@
           },
           "404": {
             "description": "Not Found"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           }
         }
       }
@@ -433,11 +439,11 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -471,11 +477,11 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -508,7 +514,10 @@
                 "artist": {
                   "example": "any"
                 },
-                "album": {
+                "albumID": {
+                  "example": "any"
+                },
+                "albumArtist": {
                   "example": "any"
                 },
                 "coverArt": {
@@ -537,11 +546,11 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       },
@@ -573,11 +582,46 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/api/track/album/{albumId}": {
+      "get": {
+        "tags": [
+          "Tracks"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "albumId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -606,7 +650,7 @@
                 "artist": {
                   "example": "any"
                 },
-                "album": {
+                "albumID": {
                   "example": "any"
                 },
                 "coverArt": {
@@ -629,17 +673,17 @@
           "201": {
             "description": "Created"
           },
-          "400": {
-            "description": "Bad Request"
-          },
           "401": {
             "description": "Unauthorized"
           },
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
+          "422": {
+            "description": "Unprocessable Entity"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }

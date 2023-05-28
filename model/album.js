@@ -8,7 +8,7 @@ const albumSchema = new Schema({
   contributingArtists: String,
   coverArt: String,
   year: String,
-  user: String
+  userID: String
 });
 
 const Album = model("albums", albumSchema);

@@ -3,14 +3,14 @@ const { Schema, model } = mongoose;
 
 const trackSchema = new Schema({
   title: String,
-  album: String,
+  albumID: String,
   albumArtist: String,
   artist: String,
   trackLength: String,
   trackNumber: String,
   coverArt: String,
   genre: String,
-  user: String
+  userID: String
 });
 
 const Track = model("Track", trackSchema);

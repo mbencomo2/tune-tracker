@@ -38,7 +38,7 @@ const createUser = async (req, res) => {
         if (result) {
           const userData = result.toObject();
           delete userData.password;
-          res.status(201).json({ message: "User created successfully", user: userData });
+          res.status(201).json({ message: "User created successfully" });
         }
       });
     });
