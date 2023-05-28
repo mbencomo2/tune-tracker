@@ -5,10 +5,10 @@
     "description": "A simple REST API to keep track of your albums and music tracks",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "tune-tracker.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http"
+    "https"
   ],
   "paths": {
     "/api/user/": {
