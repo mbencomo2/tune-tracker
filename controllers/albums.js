@@ -4,7 +4,8 @@ const ObjectId = require("mongodb").ObjectId;
 const getAlbums = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
-    const result = await Album.find({ userID: req.id });
+    const id = req.oidc.user.sub;
+    const result = await Album.find({ userID: id.split("|")[1] });
     if (result) {
       const data = result.map((album) => {
         const withoutUser = album.toObject();
@@ -43,6 +44,7 @@ const createAlbum = async (req, res) => {
   // #swagger.tags = ['Albums']
   try {
     if (req._body) {
+      const id = req.oidc.user.sub;
       const album = new Album({
         name: req.body.name,
         albumArtist: req.body.albumArtist || "",
@@ -50,7 +52,7 @@ const createAlbum = async (req, res) => {
         coverArt: req.body.coverArt || "",
         playTime: req.body.playTime || "",
         year: req.body.year || "",
-        userID: req.id
+        userID: id.split("|")[1]
       });
       const result = await album.save();
       if (result) {
@@ -88,7 +90,7 @@ const updateAlbum = async (req, res) => {
         res.status(422).json({ message: "Error saving album details" });
       }
     } else {
-      res.status(404).json({ message: "No album found"});
+      res.status(404).json({ message: "No album found" });
     }
   } catch (err) {
     console.log(err);

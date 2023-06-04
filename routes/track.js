@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express();
 const tracksController = require("../controllers/tracks");
-const authenticateUser = require("../authenticate");
 const {validate, trackValidationRules} = require("../validator");
 
 router.use((req, res, next) => {
@@ -15,11 +14,11 @@ router.use((req, res, next) => {
   next();
 });
 
-router.get("/user", authenticateUser, tracksController.getTracksbyUser);
-router.get("/:trackId", authenticateUser, tracksController.getTrack);
-router.get("/album/:albumId", authenticateUser, tracksController.getTracksbyAlbum);
-router.post("/",trackValidationRules(), validate, authenticateUser, tracksController.createTrack);
-router.put("/:trackId",trackValidationRules(), validate, authenticateUser, tracksController.updateTrack);
-router.delete("/:trackId", authenticateUser, tracksController.deleteTrack);
+router.get("/user", tracksController.getTracksbyUser);
+router.get("/:trackId", tracksController.getTrack);
+router.get("/album/:albumId", tracksController.getTracksbyAlbum);
+router.post("/",trackValidationRules(), validate, tracksController.createTrack);
+router.put("/:trackId",trackValidationRules(), validate, tracksController.updateTrack);
+router.delete("/:trackId", tracksController.deleteTrack);
 
 module.exports = router;

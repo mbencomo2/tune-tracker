@@ -7,7 +7,8 @@ const ObjectId = require("mongodb").ObjectId;
 const getTracksbyUser = async (req, res) => {
   // #swagger.tags = ['Tracks']
   try {
-    const result = await Track.find({ userID: req.id });
+    const id = req.oidc.user.sub;
+    const result = await Track.find({ userID: id.split("|")[1] });
     if (result) {
       const data = result.map((track) => {
         const trackData = track.toObject();
@@ -68,7 +69,7 @@ const getTracksbyAlbum = async (req, res) => {
 };
 
 /**
- * Create a new track 
+ * Create a new track
  */
 const createTrack = async (req, res) => {
   // #swagger.tags = ['Tracks']
@@ -76,6 +77,7 @@ const createTrack = async (req, res) => {
     res.status(422).json({ message: "Request body cannot be empty" });
   } else {
     try {
+      const id = req.oidc.user.sub;
       const track = new Track({
         title: req.body.title || "",
         artist: req.body.artist || "",
@@ -85,7 +87,7 @@ const createTrack = async (req, res) => {
         trackLength: req.body.trackLength || "",
         trackNumber: req.body.trackNumber || "",
         genre: req.body.genre || "",
-        userID: req.id
+        userID: id.split("|")[1]
       });
       const result = await track.save();
       if (result) {
