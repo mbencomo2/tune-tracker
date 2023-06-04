@@ -26,7 +26,7 @@ router.get("/auth", (req, res) => {
 router.use("/api", requiresAuth(), apiRoutes);
 router.use("/api-docs", swagger.serve, swagger.setup(swaggerDoc));
 router.use("/", (req, res) => {
-  res.send("Use api/api-docs/ for how to use this service.");
+  res.send("Use /api-docs for how to use this service.");
 });
 
 module.exports = router;

@@ -11,188 +11,13 @@
     "https"
   ],
   "paths": {
-    "/api/user/": {
+    "/auth": {
       "get": {
-        "tags": [
-          "Users"
-        ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
-          "202": {
-            "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "password": {
-                  "example": "String"
-                },
-                "name": {
-                  "example": "String"
-                },
-                "email": {
-                  "example": "Email"
-                },
-                "favGenre": {
-                  "example": "String"
-                },
-                "comment": {
-                  "example": "String"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "String"
-                },
-                "email": {
-                  "example": "Email"
-                },
-                "comment": {
-                  "example": "String"
-                },
-                "password": {
-                  "example": "String"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/api/user/login": {
-      "post": {
-        "tags": [
-          "Users"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "password": {
-                  "example": "String"
-                },
-                "email": {
-                  "example": "Email"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "202": {
-            "description": "Accepted"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "422": {
-            "description": "Unprocessable Entity"
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -203,22 +28,10 @@
           "Albums"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -238,22 +51,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -273,33 +75,28 @@
             "type": "string"
           },
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "albumArtist": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "playTime": {
-                  "example": "# of seconds"
+                  "example": "any"
                 },
                 "contributingArtists": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "coverArt": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "year": {
-                  "example": "Year number"
+                  "example": "any"
                 }
               }
             }
@@ -308,12 +105,6 @@
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -334,22 +125,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -365,33 +145,28 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "name": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "albumArtist": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "contributingArtists": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "coverArt": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "playTime": {
-                  "example": "# of seconds"
+                  "example": "any"
                 },
                 "year": {
-                  "example": "Year number"
+                  "example": "any"
                 }
               }
             }
@@ -403,12 +178,6 @@
           },
           "400": {
             "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "404": {
             "description": "Not Found"
@@ -425,22 +194,10 @@
           "Tracks"
         ],
         "description": "",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
+        "parameters": [],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -463,22 +220,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -501,39 +247,34 @@
             "type": "string"
           },
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "artist": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "albumID": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "albumArtist": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "coverArt": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "trackLength": {
-                  "example": "# of seconds"
+                  "example": "any"
                 },
                 "trackNumber": {
-                  "example": "Number"
+                  "example": "any"
                 },
                 "genre": {
-                  "example": "String"
+                  "example": "any"
                 }
               }
             }
@@ -542,12 +283,6 @@
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -568,22 +303,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -603,22 +327,11 @@
             "in": "path",
             "required": true,
             "type": "string"
-          },
-          {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
           }
         ],
         "responses": {
           "202": {
             "description": "Accepted"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
@@ -637,36 +350,31 @@
         "description": "",
         "parameters": [
           {
-            "name": "authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
                 "title": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "artist": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "albumID": {
-                  "example": "Album ID"
+                  "example": "any"
                 },
                 "coverArt": {
-                  "example": "String"
+                  "example": "any"
                 },
                 "trackLength": {
-                  "example": "# of seconds"
+                  "example": "any"
                 },
                 "trackNumber": {
-                  "example": "Number"
+                  "example": "any"
                 },
                 "genre": {
-                  "example": "String"
+                  "example": "any"
                 }
               }
             }
@@ -675,12 +383,6 @@
         "responses": {
           "201": {
             "description": "Created"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "403": {
-            "description": "Forbidden"
           },
           "422": {
             "description": "Unprocessable Entity"
