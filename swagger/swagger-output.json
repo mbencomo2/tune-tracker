@@ -393,5 +393,19 @@
         }
       }
     }
+  },
+  "security": {
+    "oauth2": {
+      "type": "oauth2",
+      "flows": {
+        "implicit": {
+          "authorizationUrl": "https://dev-48o0hvsw8l1c35rp.us.auth0.com",
+          "scopes": {
+            "read": "Grants read access",
+            "write": "Grants write access"
+          }
+        }
+      }
+    }
   }
 }

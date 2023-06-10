@@ -21,7 +21,7 @@ const getTracksbyUser = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({ error: { message: "Server error", error: err } });
   }
 };
 
@@ -41,7 +41,7 @@ const getTrack = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({ error: { message: "Server error", error: err } });
   }
 };
 
@@ -64,7 +64,7 @@ const getTracksbyAlbum = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "server error", error: err });
+    res.status(500).json({ error: { message: "server error", error: err } });
   }
 };
 
@@ -91,13 +91,11 @@ const createTrack = async (req, res) => {
       });
       const result = await track.save();
       if (result) {
-        const data = result.toObject();
-        delete data.userID;
-        res.status(201).json({ message: "New Track created", track: data });
+        res.status(201).json({ message: "New Track created", id: result.id });
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: "Server Error", error: err });
+      res.status(500).json({ error: { message: "Server Error", error: err } });
     }
   }
 };
@@ -133,7 +131,7 @@ const updateTrack = async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: "Server error", error: err });
+      res.status(500).json({ error: { message: "Server error", error: err } });
     }
   }
 };
@@ -152,7 +150,7 @@ const deleteTrack = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Server error", error: err });
+    res.status(500).json({ error: { message: "Server error", error: err } });
   }
 };
 

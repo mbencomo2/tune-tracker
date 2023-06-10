@@ -18,7 +18,7 @@ const getAlbums = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
+    res.status(404).json({ error: { message: "Server error", error: err } });
   }
 };
 
@@ -36,7 +36,7 @@ const getAlbum = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server error", error: err });
+    res.status(404).json({ error: { message: "Server error", error: err } });
   }
 };
 
@@ -56,16 +56,14 @@ const createAlbum = async (req, res) => {
       });
       const result = await album.save();
       if (result) {
-        const data = result.toObject();
-        delete data.userID;
-        res.status(201).json({ message: "New album created", album: data });
+        res.status(201).json({ message: "New album created", id: result.id });
       }
     } else {
-      res.status(400).json({ message: "Request body cannot be empty" });
+      res.status(400).json({ error: { message: "Request body cannot be empty" } });
     }
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Server Error", error: err });
+    res.status(404).json({ error: { message: "Server Error", error: err } });
   }
 };
 
@@ -83,11 +81,9 @@ const updateAlbum = async (req, res) => {
       album.year = req.body.year || album.year;
       const result = await album.save();
       if (result) {
-        const data = album.toObject();
-        delete data.userID;
-        res.status(202).json({ message: "Updated album details", album: data });
+        res.status(202).json({ message: "Updated album details"});
       } else {
-        res.status(422).json({ message: "Error saving album details" });
+        res.status(422).json({ error: { message: "Error saving album details" } });
       }
     } else {
       res.status(404).json({ message: "No album found" });

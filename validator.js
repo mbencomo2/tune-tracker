@@ -1,36 +1,37 @@
-const { check, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 const userValidationRules = () => {
   return [
     // username must be an email
-    check("email", "Must be a valid email").isLowercase().isEmail().normalizeEmail(),
+    body("email", "Must be a valid email").isLowercase().isEmail().normalizeEmail(),
     // password must be at least 5 chars long
-    check("password", "Must be at least 5 characters").isLength({ min: 5 }).escape().escape()
+    body("password", "Must be at least 5 characters").isLength({ min: 5 }).escape()
   ];
 };
 
 const albumValidationRules = () => {
   return [
-    check("name", "Album name must be a string").optional().isString().escape(),
-    check("albumArtist", "Album artist must be a string").optional().isString().escape(),
-    check("playTime", "Album play time must be a string").optional().isString().escape(),
-    check("contributingArtists", "Album contributing artists must be a string")
+    body("name", "Album name must be a string").optional().isString().escape(),
+    body("albumArtist", "Album artist must be a string").optional().isString().escape(),
+    body("playTime", "Album play time must be in seconds").optional().isNumeric().toInt(),
+    body("contributingArtists", "Album contributing artists must be a string")
       .optional()
-      .isString(),
-    check("coverArt", "Album cover art must be a string").optional().isString().escape(),
-    check("year", "Album year must be a string").optional().isString().escape()
+      .isString()
+      .escape(),
+    body("coverArt", "Album cover art must be a string").optional().isString().escape(),
+    body("year", "Album year must be a string").optional().isString().escape()
   ];
 };
 
 const trackValidationRules = () => {
   return [
-    check("title", "Track title must be a string").optional().isString().escape(),
-    check("albumID", "Track albumID must be a string").optional().isString().escape(),
-    check("albumArtist", "Track album artist must be an string").optional().isString().escape(),
-    check("artist", "Track artist must be an string").optional().isString().escape(),
-    check("trackLength", "Track length must be a string").optional().isString().escape(),
-    check("trackNumber", "Track number must be a number").optional().isNumeric().escape(),
-    check("genre", "Track genre must be a string").optional().isString().escape(),
-    check("coverArt", "Track cover art must be a string").optional().isString().escape()
+    body("title", "Track title must be a string").optional().isString().escape(),
+    body("albumID", "Track albumID must be a string").optional().isString().escape(),
+    body("albumArtist", "Track album artist must be an string").optional().isString().escape(),
+    body("artist", "Track artist must be an string").optional().isString().escape(),
+    body("trackLength", "Track length must be a number").optional().isNumeric().toInt(),
+    body("trackNumber", "Track number must be a number").optional().isNumeric().toInt(),
+    body("genre", "Track genre must be a string").optional().isString().escape(),
+    body("coverArt", "Track cover art must be a string").optional().isString().escape()
   ];
 };
 

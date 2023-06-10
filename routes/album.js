@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 router.get("/user", albumsController.getAlbums);
 router.get("/:albumId", albumsController.getAlbum);
 router.post("/", albumValidationRules(), validate, albumsController.createAlbum);
-router.put("/:albumId", albumsController.updateAlbum);
+router.put("/:albumId", albumValidationRules(), validate, albumsController.updateAlbum);
 router.delete("/:albumId", albumsController.deleteAlbum);
 
 module.exports = router;
