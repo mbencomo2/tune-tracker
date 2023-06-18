@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express();
 const apiRoutes = require("./api");
-const swagger = require("swagger-ui-express");
-const swaggerDoc = require("../swagger/swagger-output.json");
 
 const { auth, requiresAuth } = require("express-openid-connect");
 
@@ -21,12 +19,14 @@ router.use(auth(config));
 // req.isAuthenticated is provided from the auth router
 router.get("/auth", (req, res) => {
   res.send(req.oidc.isAuthenticated() ? "Logged in" : "Logged out");
-});
+}); 
 
+// Routes for normal api use require login
 router.use("/api", requiresAuth(), apiRoutes);
-router.use("/api-docs", swagger.serve, swagger.setup(swaggerDoc));
-router.use("/", (req, res) => {
-  res.send("Use /api-docs for how to use this service.");
-});
+
+// Documentation does not require login
+router.use("/api-docs", express.static("./public/schema"));
+
+router.use("/", express.static(". /public/landing"));
 
 module.exports = router;

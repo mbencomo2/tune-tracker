@@ -1,11 +1,23 @@
 const express = require("express");
 const router = express();
-// const users = require("./user");
-const albums = require("./album");
-const tracks = require("./track");
+const { graphqlHTTP } = require("express-graphql");
+const albums = require("../controllers/albums");
+const tracks = require("../controllers/tracks");
+const schema = require("../schema/schema");
+require("dotenv").config();
+// const { validate, albumValidationRules } = require("../validator");
 
-// router.use("/user", users);
-router.use("/album", albums);
-router.use("/track", tracks);
+router.use(
+  "/",
+  graphqlHTTP((req) => {
+    return {
+      schema: schema,
+      rootValue: {...albums, ...tracks},
+      graphiql: process.env.NODE_ENV === "development",
+      context: { oidc: req.oidc, userID: req.oidc.user.sub },
+    };
+  })
+  
+);
 
 module.exports = router;

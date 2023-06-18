@@ -4,10 +4,10 @@ const { Schema, model } = mongoose;
 const albumSchema = new Schema({
   name: String,
   albumArtist: String,
-  playTime: String,
+  playTime: Number,
   contributingArtists: String,
   coverArt: String,
-  year: String,
+  year: Number,
   userID: String
 });
 

@@ -6,8 +6,8 @@ const trackSchema = new Schema({
   albumID: String,
   albumArtist: String,
   artist: String,
-  trackLength: String,
-  trackNumber: String,
+  trackLength: Number,
+  trackNumber: Number,
   coverArt: String,
   genre: String,
   userID: String
